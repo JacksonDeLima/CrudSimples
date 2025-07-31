@@ -12,15 +12,15 @@ public class Main {
     private final static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("Bem vindo ao cadastro");
-        System.out.println("1 - Cadastrar");
-        System.out.println("2 - Atualizar");
-        System.out.println("3 - Excluir");
-        System.out.println("4 - Buscar por identificador");
-        System.out.println("5 - listar");
-        System.out.println("6 - Sair");
-        var userInput = scanner.nextInt();
         while (true) {
+            System.out.println("Bem vindo ao cadastro");
+            System.out.println("1 - Cadastrar");
+            System.out.println("2 - Atualizar");
+            System.out.println("3 - Excluir");
+            System.out.println("4 - Buscar por identificador");
+            System.out.println("5 - listar");
+            System.out.println("6 - Sair");
+            var userInput = scanner.nextInt();
             var selectedOption = MenuOption.values()[userInput - 1];
             switch (selectedOption) {
                 case SAVE -> {
@@ -45,7 +45,9 @@ public class Main {
                 case FIND_ALL -> {
                     var users  = dao.findAll();
                     System.out.println("Usuários cadastrados");
+                    System.out.println("====================");
                     users.forEach(System.out::println);
+                    System.out.println("==========Fim==========");
                 }
                 case EXIT -> System.exit(0);
             }
