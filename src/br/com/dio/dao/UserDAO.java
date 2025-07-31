@@ -20,11 +20,15 @@ public class UserDAO {
     }
 
     public UserModel update(final UserModel model) {
-        var toupdate = findById(model.getId());
-        models.remove(toupdate);
+        var toUpdate = findById(model.getId());
+        models.remove(toUpdate);
         models.add(model);
         return model;
+    }
 
+    public void delete(final long id){
+        var toDelete = findById(id);
+        models.remove(toDelete);
     }
 
     public UserModel findById(final long id) {
@@ -32,5 +36,9 @@ public class UserDAO {
          return models.stream()
                 .filter(u -> u.getId()== id)
                 .findFirst().orElseThrow(() -> new UserNotFoundExeption(messege));
+    }
+
+    public List<UserModel> findAll(){
+        return models;
     }
 }
