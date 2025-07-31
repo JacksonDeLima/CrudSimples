@@ -1,9 +1,9 @@
 package br.com.dio.dao;
 
-import br.com.dio.exepion.UserNotFoundExeption;
+import br.com.dio.exception.EmptyStorageExeption;
+import br.com.dio.exception.UserNotFoundExeption;
 import br.com.dio.model.UserModel;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +32,28 @@ public class UserDAO {
     }
 
     public UserModel findById(final long id) {
+        verifyStorage();
         var messege = String.format("Não existe o usuário com id cadastrado", id);
          return models.stream()
                 .filter(u -> u.getId()== id)
-                .findFirst().orElseThrow(() -> new UserNotFoundExeption(messege));
+                .findFirst()
+                 .orElseThrow(() -> new UserNotFoundExeption(messege));
     }
 
     public List<UserModel> findAll(){
-        return models;
+        List<UserModel> result;
+        try {
+            verifyStorage();
+            result = models;
+        } catch (EmptyStorageExeption ex){
+            ex.printStackTrace();
+            result = new ArrayList<>();
+        }
+        return result;
+    }
+
+    private void verifyStorage(){
+        if (models.isEmpty()) throw new EmptyStorageExeption("O armazenamento está vazio");
+
     }
 }
