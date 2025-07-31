@@ -1,5 +1,6 @@
 package br.com.dio.dao;
 
+import br.com.dio.exepion.UserNotFoundExeption;
 import br.com.dio.model.UserModel;
 
 import java.time.OffsetDateTime;
@@ -8,12 +9,12 @@ import java.util.List;
 
 public class UserDAO {
 
-    private long nexid = 1L;
+    private long nextid = 1L;
 
-    private List<UserModel> models = new ArrayList<>();
+    private final List<UserModel> models = new ArrayList<>();
 
     public UserModel save (final UserModel model) {
-        model.setId(nexid++);
+        model.setId(nextid++);
         models.add(model);
         return model;
     }
@@ -23,8 +24,9 @@ public class UserDAO {
     }
 
     public UserModel findById(final long id) {
-        models.stream()
+        var messege = String.format("Não existe o usuário com id cadastrado", id);
+         return models.stream()
                 .filter(u -> u.getId()== id)
-                .findFirst().orElseThrow();
+                .findFirst().orElseThrow(() -> new UserNotFoundExeption(messege));
     }
 }
