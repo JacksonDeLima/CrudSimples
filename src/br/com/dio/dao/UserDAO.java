@@ -20,6 +20,10 @@ public class UserDAO {
     }
 
     public UserModel update(final UserModel model) {
+        var toupdate = findById(model.getId());
+        models.remove(toupdate);
+        models.add(model);
+        return model;
 
     }
 
